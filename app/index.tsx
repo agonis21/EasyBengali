@@ -1,6 +1,8 @@
-import { SafeAreaView, Text, View, FlatList, Modal, Button, StyleSheet, Touchable, TouchableWithoutFeedback,TouchableOpacity, Dimensions } from "react-native";
+import { SafeAreaView, Text, View, ScrollView, FlatList, Modal, Button, StyleSheet, Touchable, TouchableWithoutFeedback,TouchableOpacity, Dimensions } from "react-native";
 import React, {useState, useEffect} from "react"
 import { Svg, Path } from 'react-native-svg';
+
+import TestComponent from "./TestComponent";
 
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
@@ -45,8 +47,6 @@ export default function EasyBengali() {
 
 
 
-
-
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const [paths, setPaths] = useState<string[][]>([]);
@@ -86,8 +86,21 @@ export default function EasyBengali() {
 
   return (
     <SafeAreaView>
-      <FlatList
-        data={bengaliAlphabet}
+      {/* <TestComponent name="ahsem" /> */}
+
+      <View style={styles.profileContainer}>
+        <View style={styles.profileCard}></View>
+      </View>
+
+      <ScrollView>
+      <View style={styles.section}>
+        <View style={styles.sectionHeadingRow}>
+          <Text style={styles.sectionHeading}>Numbers</Text>
+          <Text style={styles.sectionHeading}>00/10</Text>
+        </View>
+        
+        <FlatList
+        data={bengaliNumbers}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <TouchableOpacity onPress={() => setIsModalVisible(true)} style={styles.item}>
@@ -97,6 +110,48 @@ export default function EasyBengali() {
         numColumns={5} // Set the number of columns for the grid
         contentContainerStyle={styles.list}
       />
+      </View>
+      
+
+      <View style={styles.section}>
+        <View style={styles.sectionHeadingRow}>
+          <Text style={styles.sectionHeading}>Vowels</Text>
+          <Text style={styles.sectionHeading}>00/11</Text>
+        </View>
+        <FlatList
+        data={bengaliVowels}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <TouchableOpacity onPress={() => setIsModalVisible(true)} style={styles.item}>
+            <Text style={styles.text}>{item}</Text>
+          </TouchableOpacity>
+        )}
+        numColumns={5} // Set the number of columns for the grid
+        contentContainerStyle={styles.list}
+      />
+      </View>
+      
+
+
+      <View style={styles.section}>
+        <View style={styles.sectionHeadingRow}>
+          <Text style={styles.sectionHeading}>Consonants</Text>
+          <Text style={styles.sectionHeading}>00/35</Text>
+        </View>
+        <FlatList
+        data={bengaliConsonants}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <TouchableOpacity onPress={() => setIsModalVisible(true)} style={styles.item}>
+            <Text style={styles.text}>{item}</Text>
+          </TouchableOpacity>
+        )}
+        numColumns={5} // Set the number of columns for the grid
+        contentContainerStyle={styles.list}
+      />
+      </View>
+      </ScrollView>
+      
 
       <Modal 
         visible={isModalVisible}
@@ -149,9 +204,42 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: '#f5f5f5',
   },
+
+  profileContainer: {
+    backgroundColor: '#ddd',
+    height: 200,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
+  profileCard: {
+    backgroundColor: 'red',
+    height: 50,
+    width: 50,
+  },
+
   list: {
     justifyContent: 'center',
   },
+  
+  section: {
+    flexGrow: 1,
+  },
+
+  sectionHeadingRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  }, 
+
+  sectionHeading: {
+    textAlign: 'left',
+
+    fontSize: 36,
+    fontWeight: '800',
+    color: '#ED321Eff',
+    padding: 10,
+  },
+
   item: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -162,8 +250,9 @@ const styles = StyleSheet.create({
     
 
     backgroundColor: '#eee',
-    // borderWidth: 0.5,
-    // borderColor: '#ED321Eff',
+    borderWidth: 1,
+    borderColor: '#ED321Eff',
+    borderStyle: 'dashed',
     borderRadius: 5,
   },
   text: {
