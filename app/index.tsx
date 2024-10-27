@@ -2,8 +2,11 @@ import { SafeAreaView, Text, View, FlatList, Modal, Button, StyleSheet, Touchabl
 import React, {useState, useEffect} from "react"
 import { Svg, Path } from 'react-native-svg';
 
-import { useFonts } from 'expo-font';
+import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
+
+
+SplashScreen.preventAutoHideAsync();
 
 
 // Bengali Vowels (স্বরবর্ণ)
@@ -29,20 +32,17 @@ const bengaliAlphabet: string[] = [...bengaliNumbers, ...bengaliVowels, ...benga
 const DEFAULT_FONT: string = "Ani.ttf";
 
 
+
 export default function EasyBengali() {
-  const [loaded, error] = useFonts({
-    'Inter-Black': require('./assets/fonts/Inter-Black.otf'),
-  });
 
-  useEffect(() => {
-    if (loaded || error) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded, error]);
+  const [loaded, error] = Font.useFonts({
+    'Ani': require('../assets/fonts/Ani.ttf'),
+    'Akaash': require('../assets/fonts/AkaashNormal.ttf'),
+    'Jamrul': require('../assets/fonts/JamrulNormal.ttf'),
+    'Mukti': require('../assets/fonts/Mukti.ttf'),
+    'Jugantor': require('../assets/fonts/JugantorMJ-Bold.ttf')
+  })
 
-  if (!loaded && !error) {
-    return null;
-  }
 
 
 
@@ -73,6 +73,16 @@ export default function EasyBengali() {
     setCurrentPath([]);
     setClearButtonClicked(true);
   };
+
+  useEffect(() => {
+    if (loaded || error) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded, error]);
+
+  if (!loaded && !error) {
+    return null;
+  }
 
   return (
     <SafeAreaView>
@@ -160,7 +170,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     color: '#ED321Eff',
 
-    fontFamily: 'Ani',
+    fontFamily: 'Jugantor',
   },
   svgContainer: {
     borderColor: 'black',
