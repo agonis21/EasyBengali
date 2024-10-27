@@ -2,6 +2,10 @@ import { SafeAreaView, Text, View, FlatList, Modal, Button, StyleSheet, Touchabl
 import React, {useState, useEffect} from "react"
 import { Svg, Path } from 'react-native-svg';
 
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+
+
 // Bengali Vowels (স্বরবর্ণ)
 const bengaliVowels: string[] = ['অ', 'আ', 'ই', 'ঈ', 'উ', 'ঊ', 'ঋ', 'এ', 'ঐ', 'ও', 'ঔ'];
 
@@ -22,8 +26,27 @@ const bengaliNumbers: string[] = ['০', '১', '২', '৩', '৪', '৫', '৬
 // Combine all into a single array
 const bengaliAlphabet: string[] = [...bengaliNumbers, ...bengaliVowels, ...bengaliConsonants];
 
+const DEFAULT_FONT: string = "Ani.ttf";
+
 
 export default function EasyBengali() {
+  const [loaded, error] = useFonts({
+    'Inter-Black': require('./assets/fonts/Inter-Black.otf'),
+  });
+
+  useEffect(() => {
+    if (loaded || error) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded, error]);
+
+  if (!loaded && !error) {
+    return null;
+  }
+
+
+
+
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const [paths, setPaths] = useState<string[][]>([]);
@@ -126,14 +149,18 @@ const styles = StyleSheet.create({
     height: 60,
     margin: 5,
 
+    
+
     backgroundColor: '#eee',
     // borderWidth: 0.5,
     // borderColor: '#ED321Eff',
     borderRadius: 5,
   },
   text: {
-    fontSize: 24,
+    fontSize: 28,
     color: '#ED321Eff',
+
+    fontFamily: 'Ani',
   },
   svgContainer: {
     borderColor: 'black',
